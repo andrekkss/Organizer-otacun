@@ -6,6 +6,12 @@ const commands = {
     },
     redirect: {
         method: Methods.redirect
+    },
+    mute_all: {
+        method: Methods.muteAll
+    },
+    desmute_all: {
+        method: Methods.desmuteAll
     }
 }
 

@@ -45,7 +45,31 @@ const redirect = (handler, args) => {
     }
 }
 
+const muteAll = (handler, _) => {
+    const { handler: msg } = handler;
+    const channel = msg.channel;
+    const members = channel.members
+
+    members.forEach(member => {
+        member.voice.setMute(true)
+    });
+    msg.channel.send('Falam para caralho, toma no cu');
+}
+
+const desmuteAll = (handler, _) => {
+    const { handler: msg } = handler;
+    const channel = msg.channel;
+    const members = channel.members
+
+    members.forEach(member => {
+        member.voice.setMute(false)
+    });
+    msg.channel.send('Pode falar nessa porra');
+}
+
 module.exports = {
     addRedirect,
-    redirect
+    redirect,
+    muteAll,
+    desmuteAll
 }
