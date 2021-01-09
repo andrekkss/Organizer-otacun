@@ -9,10 +9,14 @@ const commands = {
     },
     fetch_api_filmes: {
         method: Methods.getFilmsByCategory
+    },
+    mute_all: {
+        method: Methods.muteAll
+    },
+    desmute_all: {
+        method: Methods.desmuteAll
     }
 }
-
-
 
 const execute = (handler, command, args) => {
     const value = commands[command];

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const Discord = require("discord.js");
+const imdb = require('imdb-api');
 
 const REDIRECT_URL_DATABASE = './src/database/red.json';
 
@@ -45,28 +46,58 @@ const redirect = (handler, args) => {
     }
 }
 
-const getFilmsByCategory = (handler, args )=>{
-
-    const {handler:message} = handler
+const getFilmsByCategory = async (handler, args )=>{
+    const { handler: message } = handler;
 
     if(!args.length){
-        return message.channelID.message("Coloca o nome do filme né caralho")
+        // Otacun film comedia / isso no canal geral /
+        // logo message.channel é "geral"
+        return message.channel.send("Coloca o nome do filme né caralho")
     }
 
-    const imdb = require('imdb-api')
-    const imdb = new imdb.Client({apiKey:"k_hmhlk35f"})
+    message.channel.send("Procurando nessa porra")
 
-    let movie = imob.get({'name': args.join("")})
+    //                                     "token" 
+    //  ====== COLOCAR NO ENV FILE ======
+    // SE POR ACASO O PROCESS.ENV FOR UNDEFINED MESMO VC COLOCANDO LA
+    // Colocar o seguinte comando no começo do arquivo: require('dotenv').config()
+    const client = new imdb.Client({apiKey: "1bf5f1c9"})
 
-    let embed = new Discord.MessageEmbed()
-    .setTitle(movie.title)
-    .setColor('#ff2050')
+    const movie = await client.get({'name': args.join(' ')})
 
-    message.channelID.send(embed)
+    const embed = new Discord.MessageEmbed()
+        .setTitle(movie.title)
+        .setColor('#ff2050')
+
+    message.channel.send(embed)
+}
+
+const muteAll = (handler, _) => {
+    const { handler: msg } = handler;
+    const channel = msg.channel;
+    const members = channel.members
+
+    members.forEach(member => {
+        member.voice.setMute(true)
+    });
+    msg.channel.send('Falam para caralho, toma no cu');
+}
+
+const desmuteAll = (handler, _) => {
+    const { handler: msg } = handler;
+    const channel = msg.channel;
+    const members = channel.members
+
+    members.forEach(member => {
+        member.voice.setMute(false)
+    });
+    msg.channel.send('Pode falar nessa porra');
 }
 
 module.exports = {
     addRedirect,
     redirect,
-    getFilmsByCategory
+    getFilmsByCategory,
+    muteAll,
+    desmuteAll
 }
