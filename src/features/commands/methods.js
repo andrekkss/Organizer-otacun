@@ -45,7 +45,28 @@ const redirect = (handler, args) => {
     }
 }
 
+const getFilmsByCategory = (handler, args )=>{
+
+    const {handler:message} = handler
+
+    if(!args.length){
+        return message.channelID.message("Coloca o nome do filme né caralho")
+    }
+
+    const imdb = require('imdb-api')
+    const imdb = new imdb.Client({apiKey:"k_hmhlk35f"})
+
+    let movie = imob.get({'name': args.join("")})
+
+    let embed = new Discord.MessageEmbed()
+    .setTitle(movie.title)
+    .setColor('#ff2050')
+
+    message.channelID.send(embed)
+}
+
 module.exports = {
     addRedirect,
-    redirect
+    redirect,
+    getFilmsByCategory
 }

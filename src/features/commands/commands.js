@@ -6,8 +6,13 @@ const commands = {
     },
     redirect: {
         method: Methods.redirect
+    },
+    fetch_api_filmes: {
+        method: Methods.getFilmsByCategory
     }
 }
+
+
 
 const execute = (handler, command, args) => {
     const value = commands[command];

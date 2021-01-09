@@ -11,14 +11,15 @@ client.on('ready', () => {
 });
   
 client.on('message', msg => {    
+    const handler = { client, handler: msg }
     if (msg.content.startsWith(Config.prefix)){ 
         const command = msg.content.slice(Config.prefix.length).trim();
         const args = command.split(' ');
         const method = args[0];
-        Command.execute({ client, handler: msg }, method, args.slice(1));
+        Command.execute(handler, method, args.slice(1));
     } else {
         const args = msg.content.split(' ');
-        Command.execute({ client, handler: msg }, "redirect", args);
+        Command.execute(handler, "redirect", args);
     }
 });
 
